@@ -1,0 +1,12 @@
+{
+  "name": "agentchat",
+  "version": "1.0.0",
+  "description": "Run AgentChat from your assistant: connect, switch from ManyChat, set up reels, auto mode, stats, scheduling and troubleshooting.",
+  "author": {
+    "name": "Georg Kinzel"
+  },
+  "homepage": "https://agentchat.georgkinzel.de/docs",
+  "repository": "https://github.com/epictaste/agentchat-skills",
+  "license": "MIT",
+  "keywords": ["instagram", "automation", "manychat", "comment-to-dm", "mcp"]
+}

@@ -1,0 +1,62 @@
+# Switch from ManyChat
+
+Goal: every ManyChat comment automation runs in AgentChat, no reel goes quiet during the switch and nobody gets a DM twice. Guide for the user: https://agentchat.georgkinzel.de/migrate
+
+**Hard rule: in ManyChat you only read.** Do not click Save, Publish, Pause, Delete, Duplicate or any toggle. If a dialog asks to save, choose discard. The only exception is step 7: pausing one automation after the user said OK for exactly that one.
+
+## 1. Start
+
+Call `status` and `list_posts`. ManyChat stays connected for now.
+
+## 2. Read ManyChat (browser agent, read only)
+
+If you can use a browser where the user is logged in to ManyChat (Claude in Chrome, Codex with a browser), use the MCP prompt `manychat_migration_prompt` or follow it: open Automation, open every automation triggered by a comment on an Instagram post or reel and note name, keywords (or "any comment"), the reel (link, a unique part of the caption, or "next post"), public reply variants, DM text, button text, link, follower check and its text, email question, active or not.
+
+Without a browser: ask for screenshots or a list, or call `suggest_automations_from_posts`, which finds "Comment WORD" in captions and returns `import_input`.
+
+## 3. Build the JSON
+
+One object per automation for `import_automations`:
+
+```json
+{"automations": [{"name": "GUIDE reel", "trigger": "comment", "permalink": "https://www.instagram.com/reel/ABC123/", "keywords": ["GUIDE"], "public_replies": ["Sent you the link {username} 📩"], "link_text": "Here is your guide 👇", "link_button": "Open guide", "link_url": "https://example.com/guide", "follow_gate": false, "email_gate": false, "active": true}], "dry_run": true}
+```
+
+- No reel link: `caption_contains` with a unique caption part. Next post: `next_post: true`.
+- Any comment: `match_mode: "any"` and no keywords.
+- First DM has a button that leads to a second DM with the link: first DM into `opening_text` and `opening_button`, second into `link_text` and `link_button`.
+- Follower check: `follow_gate: true` plus `gate_text` and `gate_button`. Email: `email_gate: true` plus `email_text`.
+- Leave out what you could not find. Never invent a link.
+
+## 4. Dry run
+
+Call `import_automations` with `dry_run: true`. Show per entry the post it found, warnings (post not found, ambiguous caption, keyword conflict, missing link, thread ownership) and errors. Fix them with the user and repeat.
+
+## 5. Import as drafts
+
+After the user's OK: `import_automations` with `dry_run: false`. Valid entries are created as drafts with a shared `import_batch`. Drafts answer nothing.
+
+## 6. Preview every draft
+
+Call `preview_automation` for each draft and show the public reply, every DM with buttons and the link check. Flag broken links (`ok: false`) and fix them with `update_automation` before going live.
+
+## 7. Go live, then pause in ManyChat
+
+Ask for an explicit OK. Then `go_live` with the `import_batch`. Follow `next_steps` from the result in this order:
+
+1. AgentChat is live now.
+2. Work through `manychat_pause_checklist` one automation at a time. For each one ask: "Pause <name> (<keyword>) in ManyChat now?" Pause only after a yes, or let the user do it.
+3. Run the `gap_fill` calls (`run_automation_on_existing_comments` with `since_minutes: 30`): first with `dry_run: true`, show who would get a DM, then after the user's OK with `dry_run: false`.
+
+During the overlap AgentChat protects against double DMs: Instagram allows one private reply per comment. Before answering, AgentChat reads the replies under the comment and skips it if the account already answered without AgentChat (run state `skipped_other_tool`). If Meta answers that the comment was already replied to, that also counts as skipped.
+
+## 8. Transition mode
+
+While ManyChat is connected it owns the conversations, so AgentChat may only send the one private reply. Imported automations run in transition mode: the link goes out directly in that reply. Follower check, buttons, email and reminder are stored as target settings. DM and story automations wait paused. `thread_owner_blocked` in `activity` or a warning in `status.migration` means ManyChat still owns conversations.
+
+## 9. Finish
+
+1. The user removes ManyChat in the Instagram app: Settings, Apps and websites.
+2. Call `finish_migration` without confirmation and show what will change.
+3. After the user confirms that ManyChat is disconnected and says OK: `finish_migration` with `confirm_manychat_disconnected: true`.
+4. Offer auto mode for new reels ([auto-mode.md](auto-mode.md)).

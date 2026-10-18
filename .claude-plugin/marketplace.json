@@ -1,0 +1,18 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
+  "name": "agentchat-skills",
+  "description": "Skills for AgentChat: Instagram comment to DM automations run from Claude, ChatGPT or Codex.",
+  "owner": {
+    "name": "Georg Kinzel"
+  },
+  "plugins": [
+    {
+      "name": "agentchat",
+      "description": "Run AgentChat from your assistant: connect, switch from ManyChat, set up reels, auto mode, stats, scheduling and troubleshooting. Adds the AgentChat connector.",
+      "source": "./plugins/agentchat",
+      "category": "productivity",
+      "homepage": "https://agentchat.georgkinzel.de/docs",
+      "tags": ["instagram", "automation", "manychat", "mcp"]
+    }
+  ]
+}
