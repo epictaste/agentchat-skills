@@ -105,7 +105,7 @@ Tell the user: "Step 6 of 6: I am switching on the follower check and the button
 3. Catch the gap: run the `gap_fill` calls from the `go_live` result (`run_automation_on_existing_comments` with `since_minutes: 30` and `dry_run: true`). If someone would get a DM, show who and send only after OK with `dry_run: false`.
 4. Load the DM history: `backfill_conversations`. It only reads and sends nothing. Check `status` for `backfill`. Meta only returns the last 20 messages per conversation.
 
-If `thread_owner_blocked` or "not the thread owner" shows up in `activity` afterwards: some app still owns that conversation. If all conversations fail, ManyChat is still connected: check the Instagram path again, then in ManyChat Settings, Instagram, Remove. If only one conversation fails, an older app owns just that one, see [troubleshooting.md](troubleshooting.md).
+If `thread_owner_blocked` or "not the thread owner" shows up in `activity` afterwards: some app still owns that conversation. If all conversations fail, ManyChat is still connected: ask the user to check the Instagram path from step 7 again and remove ManyChat there if it shows up. Never suggest disabling or removing the Instagram account inside ManyChat: that is not needed and can delete the data there. If only one conversation fails, an older app owns just that one, see [troubleshooting.md](troubleshooting.md).
 
 ## 9. Wrap up
 
