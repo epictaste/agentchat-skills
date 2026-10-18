@@ -1,5 +1,7 @@
 // Reads all ManyChat comment automations (read only) and turns them into the input for AgentChat's import_automations.
-// Tested on 18.10.2026 with 24 live Instagram "Quick Automations": every entry passed the import dry run.
+// Tested on 18.10.2026 with 24 live Instagram "Quick Automations" that react to any comment: every entry passed the import dry run.
+// Keyword automations and follower checks in other languages are not tested: check follow_gate and keywords of every entry.
+// Never print window.__acAut as a whole (it holds a session token), only step B's result.
 //
 // How to run (browser agent, user logged in to ManyChat):
 // 1. Open https://app.manychat.com/ and wait for the Home page (URL /fb<page id>/dashboard).
@@ -22,12 +24,15 @@
     return send.apply(this, arguments);
   };
   const page = location.pathname.split("/")[1];
-  [...document.querySelectorAll("a")].find((a) => a.getAttribute("href") === `/${page}/cms`).click();
+  const cms = [...document.querySelectorAll("a")].find((a) => a.getAttribute("href") === `/${page}/cms`);
+  if (!cms) throw new Error("Automation link not found: open https://app.manychat.com/ Home first, then run step A again.");
+  cms.click();
 })();
 
 // ---- Step B ----
 (async () => {
   const ac = window.__acAut, page = location.pathname.split("/")[1];
+  if (!ac?.flows) throw new Error("Step A did not see the automation list: reload ManyChat, run step A again and open Automation.");
   const result = [];
   for (const f of ac.flows.filter((x) => x.is_live)) {
     const triggers = (f.triggers.widgets || []).filter((w) => w.widget_type === "feed_comment_trigger" && w.status === "active");
@@ -62,6 +67,8 @@
       if (opening) { e.opening_text = opening.texts[0]; e.opening_button = opening.buttons.find((b) => b.type === "content_button").caption; }
       if (gate) { e.gate_text = gate.texts[0]; const gb = gate.buttons.find((b) => b.caption); if (gb) e.gate_button = gb.caption; }
       if (link) { e.link_text = link.texts[0]; e.link_url = links[0].url; e.link_button = links[0].caption; }
+      if (!gate && steps.some((x) => x.isCondition)) e.review = "condition step found, follower check not recognised: check in ManyChat";
+      if (/mnch\.at/.test(e.link_url || "")) e.review = "ManyChat short link: ask for the real target";
       if (links.length > 1) e.extra_links = links.slice(1, 3).map((b) => ({ title: b.caption, url: b.url }));
       result.push(e);
     }

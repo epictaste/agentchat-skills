@@ -7,6 +7,7 @@
 // 3. Run step B (runs in the background, about 1 second per 3 contacts) and poll window.__ac.progress().
 // 4. When done, run step C. It downloads agentchat-contacts.csv. Pass the file text to import_contacts (dry run first).
 // Nothing in ManyChat changes: only list and detail requests that the app makes anyway.
+// Never print window.__ac as a whole (it holds a session token), only progress() or the result.
 
 // ---- Step A: load the contact list ----
 (async () => {
@@ -23,12 +24,14 @@
         const text = this.responseText, json = JSON.parse(text);
         // Instagram IDs have up to 17 digits, more than a JS number holds exactly: read them from the raw text.
         const ids = [...text.matchAll(/"ig_id":\s*(\d+|null)/g)].map((m) => m[1]);
+        if (ids.length !== json.users.length) ac.errors++; // IDs would be shifted: count as error, see progress()
         json.users.forEach((u, i) => { ac.list[u.user_id] = { ...u, ig_id: ids[i] && ids[i] !== "null" ? ids[i] : null }; });
       });
     }
     return send.apply(this, arguments);
   };
   const contactsLink = [...document.querySelectorAll("a")].find((a) => /\/subscribers$/.test(a.getAttribute("href") || ""));
+  if (!contactsLink) throw new Error("Contacts link not found: open https://app.manychat.com/ Home first, then run step A again.");
   contactsLink.click();
   await new Promise((r) => setTimeout(r, 4000));
   for (let k = 0; k < 500; k++) {
@@ -75,7 +78,7 @@ window.__ac.progress = () => ({ list: Object.keys(window.__ac.list).length, deta
       iso(c.ts_subscribed || c.ts_added), iso(c.ts_last_ig_user_interaction), d.tags.join("|"), d.widgets.join("|")].map(esc).join(","));
   }
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob(["﻿" + rows.join("\r\n")], { type: "text/csv" }));
+  a.href = URL.createObjectURL(new Blob(["\uFEFF" + rows.join("\r\n")], { type: "text/csv" }));
   a.download = "agentchat-contacts.csv";
   document.body.appendChild(a); a.click(); a.remove();
   return rows.length - 1;

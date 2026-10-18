@@ -28,6 +28,7 @@ One object per automation for `import_automations`:
 - Any comment: `match_mode: "any"` and no keywords.
 - First DM has a button that leads to a second DM with the link: first DM into `opening_text` and `opening_button`, second into `link_text` and `link_button`.
 - Follower check: `follow_gate: true` plus `gate_text` and `gate_button`. Email: `email_gate: true` plus `email_text`.
+- Entries from the browser script with a `review` field need a look in ManyChat first. The script was only tested with "any comment" automations: check `keywords` and `follow_gate` of every entry before the dry run.
 - Leave out what you could not find. Never invent a link.
 
 ## 4. Dry run
@@ -40,7 +41,7 @@ After the user's OK: `import_automations` with `dry_run: false`. Valid entries a
 
 ## 6. Preview every draft
 
-Call `preview_automation` for each draft and show the public reply, every DM with buttons and the link check. Flag broken links (`ok: false`) and fix them with `update_automation` before going live.
+Call `preview_automation` for each draft and show the public reply, every DM with buttons and the link check. Flag broken links (`ok: false`) and fix them with `update_automation` before going live. If a `link_url` points to `mnch.at` or another ManyChat short link, it stops working when ManyChat is cancelled: ask the user for the real target and fix it with `update_automation` before `go_live`.
 
 ## 7. Go live, then pause in ManyChat
 
@@ -62,6 +63,7 @@ While ManyChat is connected it owns the conversations, so AgentChat may only sen
 2. Call `finish_migration` without confirmation and show what will change.
 3. After the user confirms that ManyChat is disconnected and says OK: `finish_migration` with `confirm_manychat_disconnected: true`.
 4. Offer auto mode for new reels ([auto-mode.md](auto-mode.md)).
+5. Do not cancel the ManyChat subscription yet: read the contacts first (step 10).
 
 ## 10. Contacts and their origin
 
