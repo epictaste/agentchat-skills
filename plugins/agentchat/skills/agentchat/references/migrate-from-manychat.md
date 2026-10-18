@@ -114,5 +114,5 @@ Close with a short summary:
 - N automations live, M contacts imported, DM history loading.
 - Test tip: comment under one reel with a second account that does not follow yet and tap through.
 - Cancel the ManyChat subscription after one or two quiet days.
-- Offer auto mode for new reels ([auto-mode.md](auto-mode.md)) and the command for new automations: `/agentchat:reel`.
+- Offer the command for new automations: `/agentchat:reel`.
 - Ask whether you should delete the contact CSV in the downloads.

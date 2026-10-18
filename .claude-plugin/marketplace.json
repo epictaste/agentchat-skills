@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "agentchat",
-      "description": "Run AgentChat from your assistant: connect, switch from ManyChat, set up reels, auto mode, stats, scheduling and troubleshooting. Adds the AgentChat connector.",
+      "description": "Run AgentChat from your assistant: connect, switch from ManyChat, set up reels, stats, scheduling and troubleshooting. Adds the AgentChat connector.",
       "source": "./plugins/agentchat",
       "category": "productivity",
       "homepage": "https://agentchat.georgkinzel.de/docs",

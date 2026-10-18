@@ -23,8 +23,6 @@ Then ask everything you do not know yet in **one** message, with a default for e
 - Which reel: the latest, another one, or the next one you post?
 - Optional: a reminder for people who did not click (`follow_up_text`, `follow_up_minutes` up to 1380).
 
-If the user posts reels with "Comment WORD" in the caption regularly, suggest auto mode instead ([auto-mode.md](auto-mode.md)).
-
 ## 1. Find the reel
 
 - Posted: `list_posts`, pick the reel by caption or date. Show the user the caption start and date and confirm if unsure.
@@ -54,7 +52,7 @@ If the reel already has comments, offer `run_automation_on_existing_comments` wi
 
 ## 6. Wrap up
 
-Tell the user how to test it: comment the keyword with a second account. Their own account is ignored. Offer `/agentchat:reel` again for the next reel, or auto mode.
+Tell the user how to test it: comment the keyword with a second account. Their own account is ignored. Offer `/agentchat:reel` again for the next reel.
 
 ## Change or pause later
 
