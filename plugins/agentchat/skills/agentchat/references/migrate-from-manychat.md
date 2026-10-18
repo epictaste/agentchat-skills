@@ -65,12 +65,15 @@ While ManyChat is connected it owns the conversations, so AgentChat may only sen
 
 The contacts live in ManyChat, so they come over as a file.
 
-1. Ask the user whether you may download the contact export. Without a yes, ask the user to do it.
-2. With a browser where the user is logged in to ManyChat: open Contacts, select all contacts, open Bulk actions and choose Export. That is the only click allowed besides reading: do not tag, delete, unsubscribe or change anything. If ManyChat sends the file by email or as a download, take the file the user gives you or the downloaded CSV.
+ManyChat has no CSV export for contacts (Bulk actions only offer tagging, sequences, deleting and custom audiences). So the contacts are read from the ManyChat web app itself, read only.
+
+1. Ask the user whether you may read the ManyChat contacts and save them as a CSV file in their downloads. Without a yes, stop here.
+2. In a browser where the user is logged in to ManyChat, run the three steps in [manychat-contacts-export.js](manychat-contacts-export.js) in the ManyChat tab (JavaScript in the page). Step A loads the contact list, step B reads tags and source of each contact (about 6 minutes for 1,000 contacts), step C downloads `agentchat-contacts.csv` with Instagram username, Instagram ID, names, status, dates, tags and source. Never open the Bulk actions menu and never click anything that changes contacts.
 3. Call `import_contacts` with the CSV text in `csv` (or a list in `contacts`). `dry_run` is true by default. Show the counts `new`, `updated`, `skipped`, `errors`, `duplicates_in_file` and `invalid_emails`, the column mapping and the examples.
 4. Explain the origin: tags like `link_clicked (<date>)` and automation or widget columns become `source` and mark the contact as clicked. If a source should belong to a specific AgentChat automation and was not matched, pass `source_map` (ManyChat name or tag to automation id) and run the dry run again.
 5. After the user's OK: `import_contacts` with `dry_run: false`. Existing contacts are only filled in, never overwritten.
-6. No browser: the user exports in ManyChat and uploads the file in the dashboard under Import, or pastes the CSV into the chat.
+6. The Instagram ID from ManyChat is the same ID the Instagram API gives AgentChat, so imported contacts are linked right away.
+7. No browser agent: the user uploads a CSV in the dashboard under Import or pastes it into the chat (columns as in step C).
 
 ## 11. DM history
 
