@@ -77,7 +77,7 @@ ManyChat has no CSV export for contacts (Bulk actions only offer tagging, sequen
 4. Explain the origin: tags like `link_clicked (<date>)` and automation or widget columns become `source` and mark the contact as clicked. If a source should belong to a specific AgentChat automation and was not matched, pass `source_map` (ManyChat name or tag to automation id) and run the dry run again.
 5. After the user's OK: `import_contacts` with `dry_run: false`. Existing contacts are only filled in, never overwritten.
 6. The Instagram ID from ManyChat is the same ID the Instagram API gives AgentChat, so imported contacts are linked right away.
-7. No browser agent: the user uploads a CSV in the dashboard under Import or pastes it into the chat (columns as in step C).
+7. No browser agent: the user pastes the CSV into the chat (columns as in step C) and you import it with `import_contacts` as in steps 3 to 5. The dashboard has no import page; the docs explain the contact import under `/docs#manychat-contacts`.
 
 ## 11. DM history
 
