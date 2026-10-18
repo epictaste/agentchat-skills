@@ -60,3 +60,22 @@ While ManyChat is connected it owns the conversations, so AgentChat may only sen
 2. Call `finish_migration` without confirmation and show what will change.
 3. After the user confirms that ManyChat is disconnected and says OK: `finish_migration` with `confirm_manychat_disconnected: true`.
 4. Offer auto mode for new reels ([auto-mode.md](auto-mode.md)).
+
+## 10. Contacts and their origin
+
+The contacts live in ManyChat, so they come over as a file.
+
+1. Ask the user whether you may download the contact export. Without a yes, ask the user to do it.
+2. With a browser where the user is logged in to ManyChat: open Contacts, select all contacts, open Bulk actions and choose Export. That is the only click allowed besides reading: do not tag, delete, unsubscribe or change anything. If ManyChat sends the file by email or as a download, take the file the user gives you or the downloaded CSV.
+3. Call `import_contacts` with the CSV text in `csv` (or a list in `contacts`). `dry_run` is true by default. Show the counts `new`, `updated`, `skipped`, `errors`, `duplicates_in_file` and `invalid_emails`, the column mapping and the examples.
+4. Explain the origin: tags like `link_clicked (<date>)` and automation or widget columns become `source` and mark the contact as clicked. If a source should belong to a specific AgentChat automation and was not matched, pass `source_map` (ManyChat name or tag to automation id) and run the dry run again.
+5. After the user's OK: `import_contacts` with `dry_run: false`. Existing contacts are only filled in, never overwritten.
+6. No browser: the user exports in ManyChat and uploads the file in the dashboard under Import, or pastes the CSV into the chat.
+
+## 11. DM history
+
+The DMs are stored at Instagram, not at ManyChat.
+
+1. Call `backfill_conversations`. It only reads, sends nothing and saves the messages on the contacts, skipping duplicates by message ID. It also links imported contacts to their Instagram ID.
+2. It runs in the background in steps. Check `status` for `backfill` until it says `done`.
+3. Tell the user the limit from Meta: only the 20 most recent messages of each conversation can be loaded, and old conversations in the Requests folder are left out.

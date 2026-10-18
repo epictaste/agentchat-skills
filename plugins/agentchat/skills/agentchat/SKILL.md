@@ -15,8 +15,8 @@ AgentChat answers comments under Instagram reels with a public reply and a DM wi
 ## Hard rules
 
 - **Ask first.** These tools have a live effect on real people or on what is live. Call them only after the user said yes to exactly this action in this conversation: `go_live`, `send_dm`, `reply_to_comment`, `schedule_reel`, `finish_migration` with `confirm_manychat_disconnected: true`, `run_automation_on_existing_comments` with `dry_run: false`, `set_auto_mode` with `go_live: true`. Show what will happen first (preview, dry run, list of recipients).
-- **Dry run first.** `import_automations` and `run_automation_on_existing_comments` default to a dry run. Show the result before the real call.
-- **Never change ManyChat** except pausing an automation when the user explicitly says OK for that automation. No deleting, no editing, no publishing there.
+- **Dry run first.** `import_automations`, `import_contacts` and `run_automation_on_existing_comments` default to a dry run. Show the result before the real call.
+- **Never change ManyChat** except pausing an automation when the user explicitly says OK for that automation. Downloading the contact export only after the user said OK. No deleting, no editing, no publishing there.
 - **Never invent links.** If a link is missing, ask.
 - Messages to followers: in the user's language, short, casual, no dashes. Button titles up to 20 characters, DM texts up to 640.
 
@@ -25,7 +25,7 @@ AgentChat answers comments under Instagram reels with a public reply and a DM wi
 | The user wants | Read |
 | --- | --- |
 | Connect AgentChat, or tools are missing | [connect.md](references/connect.md) |
-| Move from ManyChat | [migrate-from-manychat.md](references/migrate-from-manychat.md) |
+| Move from ManyChat, including contacts and the DM history | [migrate-from-manychat.md](references/migrate-from-manychat.md) |
 | An automation for a new or existing reel | [new-reel.md](references/new-reel.md) |
 | New reels set up by themselves from the caption | [auto-mode.md](references/auto-mode.md) |
 | Numbers, funnels, contacts, export | [review-and-stats.md](references/review-and-stats.md) |
