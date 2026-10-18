@@ -1,22 +1,52 @@
 # Switch from ManyChat
 
-Goal: every ManyChat comment automation runs in AgentChat, no reel goes quiet during the switch and nobody gets a DM twice. Guide for the user: https://agentchat.georgkinzel.de/migrate
+Goal: every ManyChat comment automation and every contact is in AgentChat, no reel goes quiet during the switch and nobody gets a DM twice. Guide for the user: https://agentchat.georgkinzel.de/migrate
 
-**Hard rule: in ManyChat you only read.** Do not click Save, Publish, Pause, Delete, Duplicate or any toggle. If a dialog asks to save, choose discard. The only exception is step 7: pausing one automation after the user said OK for exactly that one.
+Lead the user. They should always know which step you are on, what you do next and what they have to do. Talk in their language, short, no tool names unless they ask.
 
-## 1. Start
+**Hard rule: in ManyChat you only read.** Do not click Save, Publish, Pause, Delete, Duplicate or any toggle. If a dialog asks to save, choose discard. The only thing the user changes in ManyChat land is removing ManyChat in Instagram at the end (step 7), and they do that themselves.
 
-Call `status` and `list_posts`. ManyChat stays connected for now.
+## 0. Kickoff: say what happens and what you need
 
-## 2. Read ManyChat (browser agent, read only)
+Before any tool call, tell the user in one short message:
 
-Fastest and exact: if you can run JavaScript in a browser tab where the user is logged in to ManyChat (Claude in Chrome, Codex with a browser), run the steps in [manychat-automations-export.js](manychat-automations-export.js). It reads every live comment automation from the ManyChat web app (reel ID, keywords or "any comment", public replies, first DM and button, follower check text, link DM, link and button) and returns the `automations` array for `import_automations` directly. Read only, nothing in ManyChat changes. Tested with 24 live automations, all passed the dry run.
+**What I will do (about 15 minutes):**
+1. Read your ManyChat automations (only read, nothing changes there).
+2. Read your ManyChat contacts and save them as a CSV in your downloads.
+3. Recreate the automations in AgentChat as drafts and show you a preview of each.
+4. Import the contacts.
+5. Switch AgentChat live after your OK.
+6. You remove ManyChat in Instagram, I switch on the follower check. Done.
 
-Otherwise use the MCP prompt `manychat_migration_prompt` or follow it: open Automation, open every automation triggered by a comment on an Instagram post or reel and note name, keywords (or "any comment"), the reel (link, a unique part of the caption, or "next post"), public reply variants, DM text, button text, link, follower check and its text, email question, active or not.
+**What I need from you:**
+- Claude in Chrome (or another browser agent) is switched on, and you are logged in to ManyChat in that browser.
+- AgentChat is connected (Instagram login). If not, we do that first ([connect.md](connect.md)).
+- Your OK that I may read the contacts and save them as a CSV.
 
-Without a browser: ask for screenshots or a list, or call `suggest_automations_from_posts`, which finds "Comment WORD" in captions and returns `import_input`.
+Then ask: "Ready?" Wait for a yes. That yes covers reading ManyChat and saving the contact CSV, nothing that goes live.
 
-## 3. Build the JSON
+Without a browser agent: offer screenshots or a list of the automations instead, or `suggest_automations_from_posts`, which finds "Comment WORD" in captions and returns `import_input`. Contacts then come as a CSV the user pastes (step 2, item 5).
+
+## 1. Check AgentChat
+
+Call `status` and `list_posts`. Tell the user in one line: account, connected yes or no, how many reels you see. If `account_status` is not `active`, fix that first ([connect.md](connect.md)).
+
+## 2. Export from ManyChat (read only)
+
+Tell the user: "Step 1 of 6: I am reading your ManyChat automations."
+
+1. In the browser tab where the user is logged in to ManyChat, run the steps in [manychat-automations-export.js](manychat-automations-export.js). It returns the `automations` array for `import_automations` (reel, keywords or "any comment", public replies, first DM and button, follower check text, link DM, link and button). Tested with 24 live automations.
+2. No JavaScript in the browser: use the MCP prompt `manychat_migration_prompt` or open every comment automation and note name, keywords, reel, public replies, DM texts, buttons, link, follower check, email question, active or not.
+
+Tell the user: "Step 2 of 6: I am reading your contacts. This takes about 6 minutes per 1,000 contacts."
+
+3. In the same tab run the three steps in [manychat-contacts-export.js](manychat-contacts-export.js): step A loads the list, step B reads tags and source of each contact, step C downloads `agentchat-contacts.csv`. Compare `progress().list` with `progress().total` and with the number on the ManyChat Contacts page. Never open the Bulk actions menu.
+4. ManyChat has no CSV export of its own, this script is the only way. Keep the CSV until the move is done.
+5. No browser agent: the user pastes a CSV (columns as in step C) or a list into the chat.
+
+Give a short summary: "Found N automations and M contacts."
+
+## 3. Build the JSON and test it
 
 One object per automation for `import_automations`:
 
@@ -26,63 +56,63 @@ One object per automation for `import_automations`:
 
 - No reel link: `caption_contains` with a unique caption part. Next post: `next_post: true`.
 - Any comment: `match_mode: "any"` and no keywords.
-- First DM has a button that leads to a second DM with the link: first DM into `opening_text` and `opening_button`, second into `link_text` and `link_button`.
+- First DM with a button that leads to a second DM with the link: first DM into `opening_text` and `opening_button`, second into `link_text` and `link_button`.
 - Follower check: `follow_gate: true` plus `gate_text` and `gate_button`. Email: `email_gate: true` plus `email_text`.
-- Entries from the browser script with a `review` field need a look in ManyChat first. The script was only tested with "any comment" automations: check `keywords` and `follow_gate` of every entry before the dry run.
-- Leave out what you could not find. Never invent a link.
+- Entries from the script with a `review` field need a look in ManyChat first. Leave out what you could not find. Never invent a link.
 
-## 4. Dry run
+Call `import_automations` with `dry_run: true`. Show the user a compact table: reel, keyword, link, button. List warnings (post not found, ambiguous caption, keyword conflict, missing link) and errors and fix them together.
 
-Call `import_automations` with `dry_run: true`. Show per entry the post it found, warnings (post not found, ambiguous caption, keyword conflict, missing link, thread ownership) and errors. Fix them with the user and repeat.
+## 4. Drafts and preview
 
-## 5. Import as drafts
+Tell the user: "Step 3 of 6: I am creating the automations as drafts. They answer nothing yet."
 
-After the user's OK: `import_automations` with `dry_run: false`. Valid entries are created as drafts with a shared `import_batch`. Drafts answer nothing.
+1. `import_automations` with `dry_run: false`. Valid entries become drafts with a shared `import_batch`.
+2. `preview_automation` for each draft. Show once what a commenter gets: public reply, DMs, buttons. Then the link check for all links. Flag broken links and fix them with `update_automation`. A `link_url` on `mnch.at` stops working when ManyChat is cancelled: ask for the real target.
 
-## 6. Preview every draft
+## 5. Contacts
 
-Call `preview_automation` for each draft and show the public reply, every DM with buttons and the link check. Flag broken links (`ok: false`) and fix them with `update_automation` before going live. If a `link_url` points to `mnch.at` or another ManyChat short link, it stops working when ManyChat is cancelled: ask the user for the real target and fix it with `update_automation` before `go_live`.
+Tell the user: "Step 4 of 6: I am importing your contacts."
 
-## 7. Go live, then pause in ManyChat
+1. `import_contacts` with the CSV text in `csv`, `dry_run` is true by default. Show `new`, `updated`, `skipped`, `errors`, `duplicates_in_file`, `invalid_emails` in one short table.
+2. Sources: tags like `link_clicked (<date>)` and widget columns become `source`. If a source should belong to a specific automation, pass `source_map` and run the dry run again.
+3. After the user's OK: `import_contacts` with `dry_run: false`. Existing contacts are only filled in, never overwritten. The Instagram ID from ManyChat is the same one AgentChat gets, so contacts are linked right away.
 
-Ask for an explicit OK. Then `go_live` with the `import_batch`. Follow `next_steps` from the result in this order:
+## 6. Go live
 
-1. AgentChat is live now.
-2. Work through `manychat_pause_checklist` one automation at a time. For each one ask: "Pause <name> (<keyword>) in ManyChat now?" Pause only after a yes, or let the user do it.
-3. Run the `gap_fill` calls (`run_automation_on_existing_comments` with `since_minutes: 30`): first with `dry_run: true`, show who would get a DM, then after the user's OK with `dry_run: false`.
+Tell the user: "Step 5 of 6: AgentChat goes live. ManyChat keeps running until you remove it, AgentChat skips comments ManyChat already answered."
 
-During the overlap AgentChat protects against double DMs: Instagram allows one private reply per comment. Before answering, AgentChat reads the replies under the comment and skips it if the account already answered without AgentChat (run state `skipped_other_tool`). If Meta answers that the comment was already replied to, that also counts as skipped.
+Ask for an explicit OK, then `go_live` with the `import_batch`. While ManyChat is still connected, AgentChat runs in transition mode: the link goes out directly in the one private reply, without follower check. That is fine for a few minutes.
 
-## 8. Transition mode
+The result also contains `manychat_pause_checklist`. The user does not need it: removing ManyChat in Instagram (step 7) stops all ManyChat automations at once. Only offer the checklist if the user wants to keep ManyChat connected for a while, and pause an automation only after the user said OK for exactly that one.
 
-While ManyChat is connected it owns the conversations, so AgentChat may only send the one private reply. Imported automations run in transition mode: the link goes out directly in that reply. Follower check, buttons, email and reminder are stored as target settings. DM and story automations wait paused. `thread_owner_blocked` in `activity` or a warning in `status.migration` means ManyChat still owns conversations.
+## 7. Remove ManyChat in Instagram
 
-## 9. Finish
+Tell the user exactly what to tap, in their language:
 
-1. The user removes ManyChat in the Instagram app: Settings, Apps and websites.
-2. Call `finish_migration` without confirmation and show what will change.
-3. After the user confirms that ManyChat is disconnected and says OK: `finish_migration` with `confirm_manychat_disconnected: true`.
-4. Offer auto mode for new reels ([auto-mode.md](auto-mode.md)).
-5. Do not cancel the ManyChat subscription yet: read the contacts first (step 10).
+- English: Instagram app, Settings, **App and website permissions**, **Apps and websites**, ManyChat, **Remove**.
+- German: Instagram App, Einstellungen, **Berechtigungen für Apps und Websites**, **Apps und Websites**, ManyChat, **Entfernen**.
 
-## 10. Contacts and their origin
+Add: "Your automations and contacts stay in ManyChat. If you ever want to go back, connect Instagram in ManyChat again and everything runs as before."
 
-The contacts live in ManyChat, so they come over as a file.
+Wait until the user says it is done.
 
-ManyChat has no CSV export for contacts (Bulk actions only offer tagging, sequences, deleting and custom audiences). So the contacts are read from the ManyChat web app itself, read only.
+## 8. Finish
 
-1. Ask the user whether you may read the ManyChat contacts and save them as a CSV file in their downloads. Without a yes, stop here.
-2. In a browser where the user is logged in to ManyChat, run the three steps in [manychat-contacts-export.js](manychat-contacts-export.js) in the ManyChat tab (JavaScript in the page). Step A loads the contact list, step B reads tags and source of each contact (about 6 minutes for 1,000 contacts), step C downloads `agentchat-contacts.csv` with Instagram username, Instagram ID, names, status, dates, tags and source. Never open the Bulk actions menu and never click anything that changes contacts.
-3. Call `import_contacts` with the CSV text in `csv` (or a list in `contacts`). `dry_run` is true by default. Show the counts `new`, `updated`, `skipped`, `errors`, `duplicates_in_file` and `invalid_emails`, the column mapping and the examples.
-4. Explain the origin: tags like `link_clicked (<date>)` and automation or widget columns become `source` and mark the contact as clicked. If a source should belong to a specific AgentChat automation and was not matched, pass `source_map` (ManyChat name or tag to automation id) and run the dry run again.
-5. After the user's OK: `import_contacts` with `dry_run: false`. Existing contacts are only filled in, never overwritten.
-6. The Instagram ID from ManyChat is the same ID the Instagram API gives AgentChat, so imported contacts are linked right away.
-7. No browser agent: the user pastes the CSV into the chat (columns as in step C) and you import it with `import_contacts` as in steps 3 to 5. The dashboard has no import page; the docs explain the contact import under `/docs#manychat-contacts`.
+Tell the user: "Step 6 of 6: I am switching on the follower check and the buttons."
 
-## 11. DM history
+1. `finish_migration` without confirmation and show in two lines what changes.
+2. After the user's OK: `finish_migration` with `confirm_manychat_disconnected: true`.
+3. Catch the gap: run the `gap_fill` calls from the `go_live` result (`run_automation_on_existing_comments` with `since_minutes: 30` and `dry_run: true`). If someone would get a DM, show who and send only after OK with `dry_run: false`.
+4. Load the DM history: `backfill_conversations`. It only reads and sends nothing. Check `status` for `backfill`. Meta only returns the last 20 messages per conversation.
 
-The DMs are stored at Instagram, not at ManyChat.
+If `thread_owner_blocked` or "not the thread owner" shows up in `activity` afterwards: some app still owns that conversation. If all conversations fail, ManyChat is still connected: check the Instagram path again, then in ManyChat Settings, Instagram, Remove. If only one conversation fails, an older app owns just that one, see [troubleshooting.md](troubleshooting.md).
 
-1. Call `backfill_conversations`. It only reads, sends nothing and saves the messages on the contacts, skipping duplicates by message ID. It also links imported contacts to their Instagram ID.
-2. It runs in the background in steps. Check `status` for `backfill` until it says `done`.
-3. Tell the user the limit from Meta: only the 20 most recent messages of each conversation can be loaded, and old conversations in the Requests folder are left out.
+## 9. Wrap up
+
+Close with a short summary:
+
+- N automations live, M contacts imported, DM history loading.
+- Test tip: comment under one reel with a second account that does not follow yet and tap through.
+- Cancel the ManyChat subscription after one or two quiet days.
+- Offer auto mode for new reels ([auto-mode.md](auto-mode.md)) and the command for new automations: `/agentchat:reel`.
+- Ask whether you should delete the contact CSV in the downloads.

@@ -11,7 +11,7 @@ The user needs an Instagram creator or business account. They log in once at htt
 Connector URL: `https://agentchat.georgkinzel.de/mcp`. No key to copy. The assistant opens a login page, the user logs in with Instagram and clicks Allow.
 
 - Claude.ai or the Claude apps: Settings, Connectors, Add custom connector. Name `AgentChat`, URL as above.
-- Claude Code: `claude mcp add --transport http agentchat https://agentchat.georgkinzel.de/mcp`, then `/mcp` and choose AgentChat to log in. If the AgentChat plugin is installed, the connector is already there, only the login is missing.
+- Claude Code: `claude mcp add --transport http agentchat https://agentchat.georgkinzel.de/mcp`, then `/mcp` and choose AgentChat to log in. If the AgentChat plugin is installed, the connector is already there, only the login is missing. If you just installed the plugin from the command line, the running session does not see it yet: tell the user to type `/reload-plugins`, then `/mcp`, scroll down to the plugin section, choose `plugin:agentchat:agentchat`, Authenticate and log in with Instagram. Then they say "done" and you continue.
 - ChatGPT: needs developer mode (Settings, Connectors). Add a connector with the URL above and authentication OAuth.
 - Codex: `codex mcp add agentchat --url https://agentchat.georgkinzel.de/mcp`, then `codex mcp login agentchat`.
 

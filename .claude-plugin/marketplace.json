@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
-  "name": "agentchat-skills",
+  "name": "agentchat",
   "description": "Skills for AgentChat: Instagram comment to DM automations run from Claude, ChatGPT or Codex.",
   "owner": {
     "name": "Georg Kinzel"

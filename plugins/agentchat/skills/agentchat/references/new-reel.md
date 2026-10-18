@@ -2,36 +2,60 @@
 
 Goal: a comment keyword under one reel sends the right link, checked before it goes live.
 
-## 1. Collect what is missing
+Lead the user. Say which step you are on and what comes next. Talk in their language, short, no tool names unless they ask.
 
-Ask in one message for what you do not know yet:
+## 0. Kickoff
 
-- Keyword (for example GUIDE).
-- Link (https://...). Never guess it.
-- Link only for followers? (`follow_gate`)
-- Ask for the email first? (`email_gate`)
-- Reel already posted, or the next one?
-- Optional: reminder for people who did not click (`follow_up_text`, `follow_up_minutes` up to 1380).
+Tell the user in one short message:
+
+**What I will do (about 2 minutes):**
+1. Ask you four short questions.
+2. Find the reel (or wait for your next one).
+3. Build the automation as a draft and show you exactly what a commenter gets.
+4. Switch it live after your OK.
+
+Then ask everything you do not know yet in **one** message, with a default for each:
+
+- Keyword? (for example GUIDE, or "any comment")
+- Link? (https://...). Never guess it.
+- Link only for followers? (default: no, `follow_gate`)
+- Ask for the email first? (default: no, `email_gate`)
+- Which reel: the latest, another one, or the next one you post?
+- Optional: a reminder for people who did not click (`follow_up_text`, `follow_up_minutes` up to 1380).
 
 If the user posts reels with "Comment WORD" in the caption regularly, suggest auto mode instead ([auto-mode.md](auto-mode.md)).
 
-## 2. Find the reel
+## 1. Find the reel
 
-- Posted: `list_posts`, pick the reel by caption or date and confirm with the user if unsure.
+- Posted: `list_posts`, pick the reel by caption or date. Show the user the caption start and date and confirm if unsure.
 - Not posted yet: `next_post: true`. The automation attaches to the next post at most 2 minutes after publishing.
 
-## 3. Create
+## 2. Create as draft
 
-`create_automation` with `trigger: "comment"`, `keywords`, three to five short `public_replies` (with `{username}`), `link_url`, and `media_ids` or `next_post`. Add `follow_gate`, `email_gate` and texts as agreed. Show the preview and `notes` from the result.
+`create_automation` with `active: false` (so nothing answers yet), `trigger: "comment"`, `keywords`, three to five short `public_replies` (with `{username}`), `link_url`, and `media_ids` or `next_post`. Add `follow_gate`, `email_gate` and texts as agreed. Write the texts in the language of the reel.
 
-## 4. Check
+## 3. Show the preview
 
-Call `preview_automation`: public reply, DMs, buttons and the link check. If the link is broken, fix it with `update_automation`. `test_automation` with a sample comment shows which automation would answer.
+Call `preview_automation` and show the user, as it looks on Instagram:
+
+1. The public reply under the comment.
+2. Every DM with its button.
+3. Whether the link opens.
+
+If the link is broken, fix it with `update_automation`. Ask: "Looks right? Then I switch it live." Change what the user wants and show the preview again.
+
+## 4. Go live
+
+After the user's OK: `update_automation` with `active: true`. Confirm in one line: keyword, reel, live since now.
 
 ## 5. Comments that are already there
 
-Offer `run_automation_on_existing_comments` with `dry_run: true` and show who would get a DM. Send only after the user's OK with `dry_run: false`. Comments older than 7 days can no longer get a private reply.
+If the reel already has comments, offer `run_automation_on_existing_comments` with `dry_run: true` and show who would get a DM. Send only after the user's OK with `dry_run: false`. Comments older than 7 days can no longer get a private reply.
 
-## 6. Change or pause later
+## 6. Wrap up
+
+Tell the user how to test it: comment the keyword with a second account. Their own account is ignored. Offer `/agentchat:reel` again for the next reel, or auto mode.
+
+## Change or pause later
 
 `update_automation` with only the changed fields. Pause with `active: false`. Delete with `delete_automation` (history stays in the export).

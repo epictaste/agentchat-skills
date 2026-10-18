@@ -12,7 +12,7 @@ Docs: https://agentchat.georgkinzel.de/docs
 
 ```
 /plugin marketplace add epictaste/agentchat-skills
-/plugin install agentchat@agentchat-skills
+/plugin install agentchat@agentchat
 ```
 
 The plugin also adds the AgentChat connector (`https://agentchat.georgkinzel.de/mcp`). Run `/mcp`, choose AgentChat and log in with Instagram.

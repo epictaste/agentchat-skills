@@ -14,13 +14,15 @@ AgentChat answers comments under Instagram reels with a public reply and a DM wi
 
 ## Hard rules
 
-- **Ask first.** These tools have a live effect on real people or on what is live. Call them only after the user said yes to exactly this action in this conversation: `go_live`, `send_dm`, `reply_to_comment`, `schedule_reel`, `finish_migration` with `confirm_manychat_disconnected: true`, `run_automation_on_existing_comments` with `dry_run: false`, `import_contacts` with `dry_run: false`, `set_auto_mode` with `go_live: true`. Show what will happen first (preview, dry run, list of recipients).
+- **Ask first.** These tools have a live effect on real people or on what is live. Call them only after the user said yes to exactly this action in this conversation: `go_live`, `send_dm`, `reply_to_comment`, `schedule_reel`, `finish_migration` with `confirm_manychat_disconnected: true`, `run_automation_on_existing_comments` with `dry_run: false`, `import_contacts` with `dry_run: false`, `set_auto_mode` with `go_live: true`, `update_automation` with `active: true`. Show what will happen first (preview, dry run, list of recipients).
 - **Dry run first.** `import_automations`, `import_contacts` and `run_automation_on_existing_comments` default to a dry run. Show the result before the real call.
 - **Never change ManyChat** except pausing an automation when the user explicitly says OK for that automation. Downloading the contact export only after the user said OK. No deleting, no editing, no publishing there.
 - **Never invent links.** If a link is missing, ask.
 - Messages to followers: in the user's language, short, casual, no dashes. Button titles up to 20 characters, DM texts up to 640.
 
 ## Which workflow
+
+Short commands in Claude Code: `/agentchat:manychat` (switch from ManyChat) and `/agentchat:reel` (automation for one reel).
 
 | The user wants | Read |
 | --- | --- |

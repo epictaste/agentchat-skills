@@ -48,6 +48,13 @@
 // Open any contact once by clicking a row first, so window.__ac.headers is filled, then run:
 (async () => {
   const ac = window.__ac, page = location.pathname.split("/")[1];
+  // The first page (newest ~40 contacts) is often loaded before the hook from step A. Fetch it again directly (read only).
+  const r0 = await fetch(`/${page}/subscribers/search`, { method: "POST", credentials: "include", headers: { ...ac.headers, "Content-Type": "application/json" }, body: JSON.stringify({ q: "" }) });
+  const text0 = await r0.text(), json0 = JSON.parse(text0);
+  const ids0 = [...text0.matchAll(/"ig_id":\s*(\d+|null)/g)].map((m) => m[1]);
+  if (ids0.length !== json0.users.length) ac.errors++;
+  json0.users.forEach((u, i) => { ac.list[u.user_id] ??= { ...u, ig_id: ids0[i] && ids0[i] !== "null" ? ids0[i] : null }; });
+  ac.total = json0.total; // progress().list should reach this number
   const ids = Object.keys(ac.list);
   let i = 0;
   const worker = async () => {
@@ -64,7 +71,7 @@
   await Promise.all([worker(), worker(), worker()]);
   ac.done = true;
 })();
-window.__ac.progress = () => ({ list: Object.keys(window.__ac.list).length, details: Object.keys(window.__ac.details).length, errors: window.__ac.errors, done: window.__ac.done });
+window.__ac.progress = () => ({ list: Object.keys(window.__ac.list).length, total: window.__ac.total, details: Object.keys(window.__ac.details).length, errors: window.__ac.errors, done: window.__ac.done });
 
 // ---- Step C: build and download the CSV ----
 (() => {
