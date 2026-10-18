@@ -10,7 +10,9 @@ Call `status` and `list_posts`. ManyChat stays connected for now.
 
 ## 2. Read ManyChat (browser agent, read only)
 
-If you can use a browser where the user is logged in to ManyChat (Claude in Chrome, Codex with a browser), use the MCP prompt `manychat_migration_prompt` or follow it: open Automation, open every automation triggered by a comment on an Instagram post or reel and note name, keywords (or "any comment"), the reel (link, a unique part of the caption, or "next post"), public reply variants, DM text, button text, link, follower check and its text, email question, active or not.
+Fastest and exact: if you can run JavaScript in a browser tab where the user is logged in to ManyChat (Claude in Chrome, Codex with a browser), run the steps in [manychat-automations-export.js](manychat-automations-export.js). It reads every live comment automation from the ManyChat web app (reel ID, keywords or "any comment", public replies, first DM and button, follower check text, link DM, link and button) and returns the `automations` array for `import_automations` directly. Read only, nothing in ManyChat changes. Tested with 24 live automations, all passed the dry run.
+
+Otherwise use the MCP prompt `manychat_migration_prompt` or follow it: open Automation, open every automation triggered by a comment on an Instagram post or reel and note name, keywords (or "any comment"), the reel (link, a unique part of the caption, or "next post"), public reply variants, DM text, button text, link, follower check and its text, email question, active or not.
 
 Without a browser: ask for screenshots or a list, or call `suggest_automations_from_posts`, which finds "Comment WORD" in captions and returns `import_input`.
 
