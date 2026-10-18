@@ -1,5 +1,7 @@
 # AgentChat skills
 
+![AgentChat: Claude and Codex answer Instagram DMs](assets/cover.jpg)
+
 Skills for [AgentChat](https://agentchat.georgkinzel.de): Instagram comment to DM automations you run from Claude, ChatGPT or Codex. They teach your assistant the workflows: connect, switch from ManyChat, set up a reel, auto mode, stats, scheduling and troubleshooting. Before anything goes live or reaches real people, the skill asks you first.
 
 Docs: https://agentchat.georgkinzel.de/docs
