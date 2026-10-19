@@ -54,7 +54,7 @@ One object per automation for `import_automations`:
 {"automations": [{"name": "GUIDE reel", "trigger": "comment", "permalink": "https://www.instagram.com/reel/ABC123/", "keywords": ["GUIDE"], "public_replies": ["Sent you the link {username} 📩"], "link_text": "Here is your guide 👇", "link_button": "Open guide", "link_url": "https://example.com/guide", "follow_gate": false, "email_gate": false, "active": true}], "dry_run": true}
 ```
 
-- No reel link: `caption_contains` with a unique caption part. Next post: `next_post: true`.
+- No reel link: `caption_contains` with a unique caption part. Next post: `next_post: true` plus `reel_caption` or `reel_publish_at`.
 - Any comment: `match_mode: "any"` and no keywords.
 - First DM with a button that leads to a second DM with the link: first DM into `opening_text` and `opening_button`, second into `link_text` and `link_button`.
 - Follower check: `follow_gate: true` plus `gate_text` and `gate_button`. Email: `email_gate: true` plus `email_text`.

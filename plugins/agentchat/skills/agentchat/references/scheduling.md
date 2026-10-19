@@ -18,6 +18,10 @@ Goal: a reel goes online now or at a set time, optionally with its comment autom
 4. Show a summary and ask for an explicit OK. Then `schedule_reel`.
 5. `list_scheduled` shows the status. Publishing happens at most 2 minutes after the set time. Uploaded files are deleted after publishing, cancelling or failing.
 
+## Reel scheduled somewhere else (Blotato, Instagram, Meta Business Suite)
+
+AgentChat cannot see the other tool's schedule or its post ID. Create the automation in the same step as scheduling: `create_automation` with `next_post: true`, `reel_caption` (first words of the caption) and `reel_publish_at` (the planned time). Both together are the safest. If AgentChat is not reachable, do not schedule the reel; say so instead.
+
 ## Cancel
 
 `cancel_scheduled` with the id, after the user's OK. An attached automation stays paused; delete it with `delete_automation` if it is not needed.
