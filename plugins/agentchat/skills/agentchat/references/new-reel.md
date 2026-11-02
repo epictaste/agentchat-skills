@@ -20,13 +20,14 @@ Then ask everything you do not know yet in **one** message, with a default for e
 - Link? (https://...). Never guess it.
 - Link only for followers? (default: no, `follow_gate`)
 - Ask for the email first? (default: no, `email_gate`)
-- Which reel: the latest, another one, or the next one you post?
+- Which reel: the latest, another one, or one that is not online yet? For one not online yet: the planned time and the first words of the caption.
 - Optional: a reminder for people who did not click (`follow_up_text`, `follow_up_minutes` up to 1380).
 
 ## 1. Find the reel
 
 - Posted: `list_posts`, pick the reel by caption or date. Show the user the caption start and date and confirm if unsure.
-- Not posted yet: `next_post: true`. The automation attaches to the next post at most 2 minutes after publishing.
+- Not posted yet (scheduled in AgentChat, Blotato, Instagram or anywhere else): `next_post: true` plus `reel_caption` (a unique part of the planned caption) and/or `reel_publish_at` (planned time with time zone). The automation shows as waiting, attaches itself to exactly that reel at most 2 minutes after it goes online and answers the comments from before. If two reels match, or the caption asks for a different keyword, it does not guess: it suggests the reel and you confirm with `attach_automation_to_reel`. No matching reel within 24 hours: it expires.
+- Create it at the moment the reel gets scheduled, not after it is live. If AgentChat is not reachable at that moment, do not schedule the reel and tell the user.
 
 ## 2. Create as draft
 

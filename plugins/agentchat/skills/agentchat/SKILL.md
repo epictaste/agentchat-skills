@@ -1,6 +1,6 @@
 ---
 name: agentchat
-description: "Run AgentChat, the Instagram comment to DM automation, through its MCP connector. Use when the user wants to connect AgentChat, switch or migrate from ManyChat, set up a keyword automation for a reel (\"Comment GUIDE\"), save keyword links, check stats, funnels, contacts or exports, schedule or publish a reel, or fix automations that do not answer."
+description: "Run AgentChat, the Instagram comment to DM automation, through its MCP connector. Use when the user wants to connect AgentChat, switch or migrate from ManyChat, set up a keyword automation for a reel (\"Comment GUIDE\"), save keyword links, check stats, views, watch time, reach, funnels, contacts or exports, schedule or publish a reel, build multi step DM flows with button menus, reminders and tags, or fix automations that do not answer."
 ---
 
 # AgentChat
@@ -29,9 +29,14 @@ Short commands in Claude Code: `/agentchat:manychat` (switch from ManyChat) and 
 | Connect AgentChat, or tools are missing | [connect.md](references/connect.md) |
 | Move from ManyChat, including contacts and the DM history | [migrate-from-manychat.md](references/migrate-from-manychat.md) |
 | An automation for a new or existing reel | [new-reel.md](references/new-reel.md) |
-| Numbers, funnels, contacts, export | [review-and-stats.md](references/review-and-stats.md) |
+| Numbers, insights, funnels, contacts, export | [review-and-stats.md](references/review-and-stats.md) |
+| A button menu, several reminders or questions before the link | [flows.md](references/flows.md) |
 | Publish or schedule a reel | [scheduling.md](references/scheduling.md) |
 | Something does not work | [troubleshooting.md](references/troubleshooting.md) |
+
+## Flows (multi step DMs, button menus, reminders)
+
+An automation can carry a `flow` instead of the single link DM: a button menu with several paths, two or more reminders, questions before the link, tags on the contact. Everything before the link DM stays (public reply, opening button, follower check, email). Use it when one link plus one reminder is not enough. Rules, the 24 hour window and ready recipes: [flows.md](references/flows.md). Show `test_automation` and `preview_automation` and get the user's OK before it goes live.
 
 ## Instagram rules that shape every answer
 
