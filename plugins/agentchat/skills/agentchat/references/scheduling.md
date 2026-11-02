@@ -8,6 +8,8 @@ Goal: a reel goes online now or at a set time, optionally with its comment autom
 
 `get_publishing_limit` shows how many posts Instagram still allows in the next 24 hours.
 
+Several accounts in `status`: settle which account the reel goes to (ask if the request does not say) and pass `account` on `upload_video`, `schedule_reel` and the automation. A reel posted to the wrong account cannot be moved.
+
 ## Steps
 
 1. Video source:

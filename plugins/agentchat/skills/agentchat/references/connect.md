@@ -7,7 +7,7 @@ Goal: the AgentChat tools are available in this assistant and `status` shows a c
 The user needs an Instagram creator or business account.
 
 1. They log in at https://agentchat.georgkinzel.de/start with Google or email and password (or during the connector login below).
-2. Then they connect Instagram at https://agentchat.georgkinzel.de/app/connections with "Connect Instagram account". They can connect as many Instagram accounts as they like, and YouTube channels on the same page.
+2. Then they connect Instagram at https://agentchat.georgkinzel.de/app/connections with "Connect Instagram account". They can connect as many Instagram accounts as they like, and YouTube channels on the same page. Channels belong to the login, not to one Instagram account, so every Instagram account of the login can post to them.
 
 The 7 day trial starts when an Instagram account is connected.
 
@@ -35,6 +35,6 @@ Never ask the user to paste the key into the chat if a connector login is possib
 
 Call `status`. Good signs: `account` shows the username, `accounts` lists every connected Instagram account, `account_status` is `active`, `webhook_subscriptions` lists comments and messages. If webhooks are missing, call `subscribe_webhooks` once. Then continue with the workflow the user wanted.
 
-Several accounts: every tool takes the optional parameter `account` (`@username` or id). Without it the account chosen last is used. If the user has more than one account and does not say which, ask before writing anything.
+Several accounts: every tool takes the optional parameter `account` (`@username` or id). Without it the default account is used (`status` marks it with `default`, the user sets it in the dashboard). `account` applies to that one call only and never changes the default, so when working on any account other than the default, pass `account` on every call. If the user has more than one account and does not say which, ask before writing anything.
 
 `status` says no Instagram account is connected: send the user to https://agentchat.georgkinzel.de/app/connections.

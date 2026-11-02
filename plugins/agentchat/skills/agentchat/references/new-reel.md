@@ -16,6 +16,7 @@ Tell the user in one short message:
 
 Then ask everything you do not know yet in **one** message, with a default for each:
 
+- Which Instagram account? Only when `status` lists several and the request does not name one. Then pass `account` on every call of this workflow.
 - Keyword? (for example GUIDE, or "any comment")
 - Link? (https://...). Never guess it.
 - Link only for followers? (default: no, `follow_gate`)

@@ -11,6 +11,7 @@ AgentChat answers comments under Instagram reels with a public reply and a DM wi
 
 1. Check that the AgentChat tools are available (for example `status`). If they are not, follow [connect.md](references/connect.md) and stop until the user has connected.
 2. Call `status` once at the start. It shows the account, the connection, webhooks, migration state and publishing state.
+3. If `status` lists more than one entry under `accounts`, settle which Instagram account this task is for before anything else. Take it from the user's request; if the request does not say, ask. Say it back in one line ("Working on @myshop").
 
 ## Hard rules
 
@@ -18,6 +19,7 @@ AgentChat answers comments under Instagram reels with a public reply and a DM wi
 - **Dry run first.** `import_automations`, `import_contacts` and `run_automation_on_existing_comments` default to a dry run. Show the result before the real call.
 - **Never change ManyChat** except pausing an automation when the user explicitly says OK for that automation. Downloading the contact export only after the user said OK. No deleting, no editing, no publishing there.
 - **Never invent links.** If a link is missing, ask.
+- **Name the account on every call.** With several accounts, pass `account` (`@username`) on every tool call, reads included, and above all on `create_automation`, `update_automation`, `schedule_reel` and everything that posts or sends. Never rely on the default account: other assistants may work on another account of the same login at the same time, and the default is only what the user picked in the dashboard.
 - Messages to followers: in the user's language, short, casual, no dashes. Button titles up to 20 characters, DM texts up to 640.
 
 ## Which workflow
