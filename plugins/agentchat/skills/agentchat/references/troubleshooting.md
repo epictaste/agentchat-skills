@@ -9,10 +9,10 @@ Start with `status`, then `activity` with `kind: "error"`. Explain what you foun
 | Public reply but no DM with the link | `activity` for the contact | Instagram only allows DMs within 24 hours after the person wrote or tapped a button. |
 | `thread_owner_blocked` or "not the thread owner" | `status.migration` | Another app (often ManyChat, sometimes an older Meta app) owns the conversation. Remove it in Instagram (Settings, App and website permissions, Apps and websites) or in Meta Business Suite under conversation routing, then `finish_migration` after OK. If only single threads are blocked while others go through, it does not have to be ManyChat: look for an older Meta app. |
 | Old ManyChat buttons, `unhandled_button` or `unhandled_dm` in `activity` | `activity` for the contact | AgentChat matches old ManyChat taps to the automation of the person's last comment (7 days) and logs `legacy_tap_resolved`. If nothing matches, answer by hand; the operator was notified. |
-| Comments from an outage | `activity` with `recovery_done` | After a new login AgentChat catches up by itself (comments up to 7 days, DMs up to 23 hours). Nothing to do; `recovery_not_possible` lists what was too old. |
+| Comments from an outage | `activity` with `recovery_done` | After the account is reconnected AgentChat catches up by itself (comments up to 7 days, DMs up to 23 hours). Nothing to do; `recovery_not_possible` lists what was too old. |
 | Runs with `skipped_other_tool` | `get_contact` | The account had already answered that comment without AgentChat. This is the double DM protection, nothing to fix. |
 | Link broken | `preview_automation` | `update_automation` with the right `link_url`. |
-| `account_status` is `token_invalid` | | The user logs in with Instagram again at https://agentchat.georgkinzel.de/start |
+| `account_status` is `token_invalid` | | The user reconnects the Instagram account at https://agentchat.georgkinzel.de/app/connections (Reconnect). |
 | A tool says AgentChat is paused | `billing_status` | Trial ended or payment failed. The user picks a plan at https://agentchat.georgkinzel.de/app/plan |
 | 429 rate limited | | Wait the seconds from `Retry-After`, then retry once. |
 | Follower check never passes | `stats` `gated` | After 3 checks the link goes out anyway. Instagram sometimes reports fresh follows late. |

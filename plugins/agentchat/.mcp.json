@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "agentchat": {
+    "AgentChat": {
       "type": "http",
       "url": "https://agentchat.georgkinzel.de/mcp"
     }

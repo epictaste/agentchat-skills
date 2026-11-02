@@ -20,7 +20,7 @@ Before any tool call, tell the user in one short message:
 
 **What I need from you:**
 - Claude in Chrome (or another browser agent) is switched on, and you are logged in to ManyChat in that browser.
-- AgentChat is connected (Instagram login). If not, we do that first ([connect.md](connect.md)).
+- AgentChat is connected (AgentChat login, Instagram account connected on Connections). If not, we do that first ([connect.md](connect.md)).
 - Your OK that I may read the contacts and save them as a CSV.
 
 Then ask: "Ready?" Wait for a yes. That yes covers reading ManyChat and saving the contact CSV, nothing that goes live.

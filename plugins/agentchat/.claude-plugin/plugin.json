@@ -1,6 +1,6 @@
 {
   "name": "agentchat",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Run AgentChat from your assistant: connect, switch from ManyChat, set up reels, stats, scheduling and troubleshooting.",
   "author": {
     "name": "Georg Kinzel"

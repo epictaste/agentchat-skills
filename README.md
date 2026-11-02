@@ -15,7 +15,7 @@ Docs: https://agentchat.georgkinzel.de/docs
 /plugin install agentchat@agentchat
 ```
 
-The plugin also adds the AgentChat connector (`https://agentchat.georgkinzel.de/mcp`). Run `/mcp`, choose AgentChat and log in with Instagram.
+The plugin also adds the AgentChat connector (`https://agentchat.georgkinzel.de/mcp`). Run `/mcp`, choose AgentChat and log in to AgentChat (Google or email). Connect your Instagram accounts at https://agentchat.georgkinzel.de/app/connections. One connector covers all accounts of your login.
 
 ### Any agent with Agent Skills, including Codex
 

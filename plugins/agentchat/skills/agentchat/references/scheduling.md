@@ -4,7 +4,7 @@ Goal: a reel goes online now or at a set time, optionally with its comment autom
 
 ## Check first
 
-`status` shows `publishing.enabled` and `publishing.permission`. If publishing is not enabled on the server, say so and stop. If the permission is `missing` or `unknown`, the user logs in with Instagram once more at https://agentchat.georgkinzel.de/start and allows publishing.
+`status` shows `publishing.enabled` and `publishing.permission`. If publishing is not enabled on the server, say so and stop. If the permission is `missing` or `unknown`, the user reconnects the Instagram account once at https://agentchat.georgkinzel.de/app/connections (Reconnect) and allows publishing.
 
 `get_publishing_limit` shows how many posts Instagram still allows in the next 24 hours.
 
