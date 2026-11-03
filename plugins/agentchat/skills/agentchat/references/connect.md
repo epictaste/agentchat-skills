@@ -2,14 +2,14 @@
 
 Goal: the AgentChat tools are available in this assistant and `status` shows a connected Instagram account.
 
-## 1. Instagram account
+## 1. Accounts
 
-The user needs an Instagram creator or business account.
+For comment to DM automations the user needs an Instagram creator or business account or a Facebook page. For posting, YouTube and TikTok work too.
 
 1. They log in at https://agentchat.georgkinzel.de/start with Google or email and password (or during the connector login below).
-2. Then they connect Instagram at https://agentchat.georgkinzel.de/app/connections with "Connect Instagram account". They can connect as many Instagram accounts as they like, and YouTube channels on the same page. Channels belong to the login, not to one Instagram account, so every Instagram account of the login can post to them.
+2. Then they press "Add account" at https://agentchat.georgkinzel.de/app/connections and pick a platform (Instagram, Facebook, YouTube, TikTok). They can connect as many accounts as they like. Everything belongs to the login, so every account of the login can post to the connected channels. If a login expires, they press "Reconnect" in that row.
 
-The 7 day trial starts when an Instagram account is connected.
+The 7 day trial starts when the first account is connected.
 
 ## 2. Way 1: connector with login (recommended)
 
