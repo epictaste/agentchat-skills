@@ -24,10 +24,10 @@ Connector URL: `https://agentchat.georgkinzel.de/mcp`. No key to copy. One conne
 
 For n8n, Make, scripts, the REST API and MCP clients that can send a header but do not support OAuth.
 
-1. Each Instagram account has its own key. It is shown once at https://agentchat.georgkinzel.de/app/connections right after the account is connected. Lost it? The user generates a new one at https://agentchat.georgkinzel.de/app/settings/assistant, section API key. It is shown only once.
+1. There is one key per login, and it covers all Instagram accounts of that login. The user generates it at https://agentchat.georgkinzel.de/app/settings/assistant, section API key, with "Generate new key". It is shown only once. Connecting an account does not show a key. Lost it? Generate a new one; the old one stops working at once.
 2. Always send it as header `Authorization: Bearer <key>`, never in a URL.
-3. MCP: URL `https://agentchat.georgkinzel.de/mcp` plus that header. Claude Code: `claude mcp add --transport http agentchat https://agentchat.georgkinzel.de/mcp --header "Authorization: Bearer <key>"`.
-4. REST: base `https://agentchat.georgkinzel.de/api/v1`, reference `https://agentchat.georgkinzel.de/api/v1/openapi.json`.
+3. MCP: URL `https://agentchat.georgkinzel.de/mcp` plus that header. Claude Code: `claude mcp add --transport http agentchat https://agentchat.georgkinzel.de/mcp --header "Authorization: Bearer <key>"`. Pick the account with the parameter `account`, as with the connector.
+4. REST: base `https://agentchat.georgkinzel.de/api/v1`, reference `https://agentchat.georgkinzel.de/api/v1/openapi.json`. Pick the account with the query parameter `?account=@username` (or id). Without it the default account is used.
 
 Never ask the user to paste the key into the chat if a connector login is possible.
 
