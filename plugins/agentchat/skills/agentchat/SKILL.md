@@ -38,7 +38,7 @@ Short commands in Claude Code: `/agentchat:manychat` (switch from ManyChat) and 
 
 ## Flows (multi step DMs, button menus, reminders)
 
-An automation can carry a `flow` instead of the single link DM: a button menu with several paths, two or more reminders, questions before the link, tags on the contact. Everything before the link DM stays (public reply, opening button, follower check, email). Use it when one link plus one reminder is not enough. Rules, the 24 hour window and ready recipes: [flows.md](references/flows.md). Show `test_automation` and `preview_automation` and get the user's OK before it goes live.
+An automation can carry a `flow` instead of the single link DM: a button menu with several paths, two or more reminders, questions before the link, an email typed right into the DM, tags on the contact. Everything before the link DM stays (public reply, opening button, follower check, email). Use it when one link plus one reminder is not enough. Rules, the 24 hour window and ready recipes: [flows.md](references/flows.md). Show `test_automation` and `preview_automation` and get the user's OK before it goes live.
 
 ## Instagram rules that shape every answer
 

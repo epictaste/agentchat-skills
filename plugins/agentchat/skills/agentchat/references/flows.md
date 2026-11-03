@@ -37,6 +37,7 @@ Pass `flow` to `create_automation` or `update_automation` (REST the same). Setti
 - Button: title up to 20 characters, unique within its step. Exactly one of goto (a step id, the tap leads there) or url (an https link). Tags only on goto buttons, they are set on the tap.
 - Wait: after_minutes from 0 to 1380, if one of no_click (no link click since this step), no_reply (no message and no tap since this step) or always, plus goto. If the condition is not met when the wait is due, nothing more is sent automatically (menu buttons in that step can still be tapped). after_minutes 0 with always sends the next DM right after, handy to merge two paths into one.
 - Waits must not form a loop. Buttons may lead back to the menu.
+- Email: `"email": { "goto": "thanks", "retry_text": "..." }` lets a step wait for an email reply (see recipe 4). Not together with a wait of 0 minutes and always.
 
 ## The 24 hour window
 
@@ -113,6 +114,26 @@ Two button questions in a row, the answers end up as tags, the link depends on t
 }
 ```
 
+### 4. Email right in the DM
+
+People can type their email instead of clicking. The next DM after the step counts as the answer, before any keyword. With an email: stored on the contact, event email_captured, the automation's `webhook_url` gets `email_captured` (same body and signature as with email_gate), then the flow goes on to goto right away. Without an email: retry_text once (default: the automation's `email_retry_text`), the second miss ends the flow. No answer within 72 hours: flow_expired. Taps on goto buttons of the step still work, a link click does not end the wait. A wait on the same step that moves on (always, or no_click without a click) ends the email wait too, so put reminders on an earlier step like in this recipe.
+
+```json
+{
+  "start": "link",
+  "steps": {
+    "link":   { "text": "Here's your link 👇", "buttons": [ { "title": "Open", "url": "https://example.com/guide" } ],
+                "wait": { "after_minutes": 5, "if": "always", "goto": "offer" } },
+    "offer":  { "text": "By the way: want my top 10 tools? Tap below or just type your email here 👇",
+                "buttons": [ { "title": "Get it", "url": "https://example.com/start" } ],
+                "email": { "goto": "thanks", "retry_text": "Just send me your email address here 🙂" } },
+    "thanks": { "text": "Done! Check your inbox and confirm the email 📩" }
+  }
+}
+```
+
+Set `webhook_url` (and `webhook_secret`) on the automation so your newsletter tool gets the address.
+
 ## Workflow
 
 1. Ask in one message: which paths, which links (never guess a link), how many reminders, which tags, the language.
@@ -120,4 +141,4 @@ Two button questions in a row, the answers end up as tags, the link depends on t
 3. Create the automation as a draft (`create_automation` with active false) or add the flow to an existing one with `update_automation`.
 4. Run `test_automation` with a sample comment and `preview_automation`. Show the user every step as a chat: text, buttons, where each button leads, when each reminder comes.
 5. Switch it live only after the user's OK (`update_automation` with active true).
-6. Later: `get_automation` shows flow stats per step (sent, clicks) and per button (taps). Run states are flow_wait, flow_done and flow_expired. `list_contacts` filters by tag and without_tag, `update_contact` changes tags with `add_tags` and `remove_tags`. A webhook body carries contact.tags.
+6. Later: `get_automation` shows flow stats per step (sent, clicks) and per button (taps). Steps with email also show emails (captured, retried, given_up). Run states are flow_wait, flow_done and flow_expired. `list_contacts` filters by tag and without_tag, `update_contact` changes tags with `add_tags` and `remove_tags`. A webhook body carries contact.tags.
