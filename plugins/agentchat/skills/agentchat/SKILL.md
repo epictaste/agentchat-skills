@@ -1,17 +1,17 @@
 ---
 name: agentchat
-description: "Run AgentChat, the Instagram comment to DM automation, through its MCP connector. Use when the user wants to connect AgentChat, switch or migrate from ManyChat, set up a keyword automation for a reel (\"Comment GUIDE\"), save keyword links, check stats, views, watch time, reach, funnels, contacts or exports, schedule or publish a reel, build multi step DM flows with button menus, reminders and tags, or fix automations that do not answer."
+description: "Run AgentChat, the Instagram and Facebook page comment to DM automation, through its MCP connector. Use when the user wants to connect AgentChat, switch or migrate from ManyChat, set up a keyword automation for a reel (\"Comment GUIDE\"), save keyword links, check stats, views, watch time, reach, funnels, contacts or exports, schedule or publish a reel, photo post or story (also on YouTube, TikTok and Facebook), build multi step DM flows with button menus, reminders and tags, or fix automations that do not answer."
 ---
 
 # AgentChat
 
-AgentChat answers comments under Instagram reels with a public reply and a DM with a link, optionally checks that the person follows, asks for an email and sends a reminder. Every contact is stored. You control it through the AgentChat MCP tools. Documentation: https://agentchat.georgkinzel.de/docs
+AgentChat answers comments under Instagram reels and posts of Facebook pages with a public reply and a DM with a link, optionally checks that the person follows (Instagram only), asks for an email and sends a reminder. Every contact is stored. You control it through the AgentChat MCP tools. Documentation: https://agentchat.georgkinzel.de/docs
 
 ## Before anything else
 
 1. Check that the AgentChat tools are available (for example `status`). If they are not, follow [connect.md](references/connect.md) and stop until the user has connected.
 2. Call `status` once at the start. It shows the account, the connection, webhooks, migration state and publishing state.
-3. If `status` lists more than one entry under `accounts`, settle which Instagram account this task is for before anything else. Take it from the user's request; if the request does not say, ask. Say it back in one line ("Working on @myshop").
+3. If `status` lists more than one entry under `accounts`, settle which account (Instagram account or Facebook page, see `platform`) this task is for before anything else. Take it from the user's request; if the request does not say, ask. Say it back in one line ("Working on @myshop").
 
 ## Hard rules
 
@@ -33,7 +33,7 @@ Short commands in Claude Code: `/agentchat:manychat` (switch from ManyChat) and 
 | An automation for a new or existing reel | [new-reel.md](references/new-reel.md) |
 | Numbers, insights, funnels, contacts, export | [review-and-stats.md](references/review-and-stats.md) |
 | A button menu, several reminders or questions before the link | [flows.md](references/flows.md) |
-| Publish or schedule a reel | [scheduling.md](references/scheduling.md) |
+| Publish or schedule a reel, photo post or story, on one or several platforms | [scheduling.md](references/scheduling.md) |
 | Something does not work | [troubleshooting.md](references/troubleshooting.md) |
 
 ## Flows (multi step DMs, button menus, reminders)
