@@ -38,6 +38,7 @@ Pass `flow` to `create_automation` or `update_automation` (REST the same). Setti
 - Wait: after_minutes from 0 to 1380, if one of no_click (no link click since this step), no_reply (no message and no tap since this step) or always, plus goto. If the condition is not met when the wait is due, nothing more is sent automatically (menu buttons in that step can still be tapped). after_minutes 0 with always sends the next DM right after, handy to merge two paths into one.
 - Waits must not form a loop. Buttons may lead back to the menu.
 - Email: `"email": { "goto": "thanks", "retry_text": "..." }` lets a step wait for an email reply (see recipe 4). Not together with a wait of 0 minutes and always.
+- Once per contact: `"skip_if_tag": "freebie"` on a step means: if the contact already has this tag, the step is not sent and the flow ends (see recipe 5). Not on the start step. `once_per_user` only counts one automation, this one works across all of them.
 
 ## The 24 hour window
 
@@ -133,6 +134,26 @@ People can type their email instead of clicking. The next DM after the step coun
 ```
 
 Set `webhook_url` (and `webhook_secret`) on the automation so your newsletter tool gets the address.
+
+### 5. A freebie only once, across all reels
+
+Every reel gets its own link, plus a freebie after it. Set `tags` and `skip_if_tag` with the same tag on the freebie step, in every automation. The first automation sends it and tags the contact. Later ones skip it, the contact only gets the steps before it.
+
+```json
+{
+  "start": "link",
+  "steps": {
+    "link":    { "text": "Here's your link 👇", "buttons": [ { "title": "Open", "url": "https://example.com/guide" } ],
+                 "wait": { "after_minutes": 5, "if": "always", "goto": "ask" } },
+    "ask":     { "text": "Just write me if you have questions 🤝",
+                 "wait": { "after_minutes": 0, "if": "always", "goto": "freebie" } },
+    "freebie": { "text": "By the way, here are my top 10 tools 👇", "buttons": [ { "title": "Get it", "url": "https://example.com/start" } ],
+                 "tags": ["freebie"], "skip_if_tag": "freebie" }
+  }
+}
+```
+
+Adding this to reels that already ran: the people who got the freebie before do not have the tag yet. Tag them first, with `import_contacts` (a list of ig_id and tags, dry_run first) or `update_contact`. A skipped step shows up as flow_step_skipped in the activity.
 
 ## Workflow
 
