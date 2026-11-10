@@ -35,3 +35,4 @@ Report a few useful ratios, for example clicked of link_sent, or how many stoppe
 
 - `export_data` with `table` (contacts, automations, runs, events, clicks, scheduled_posts, videos) returns the rows as CSV directly, optional `since`.
 - Without `table` it lists the REST download URLs. They need the API key as header `Authorization: Bearer <key>`, never in the URL.
+- One export per account runs at a time. If a second one is refused (REST answers 429), wait until the first is done and try again.

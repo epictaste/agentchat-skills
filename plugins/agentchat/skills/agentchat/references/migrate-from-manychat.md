@@ -73,7 +73,7 @@ Tell the user: "Step 3 of 6: I am creating the automations as drafts. They answe
 
 Tell the user: "Step 4 of 6: I am importing your contacts."
 
-1. `import_contacts` with the CSV text in `csv`, `dry_run` is true by default. Show `new`, `updated`, `skipped`, `errors`, `duplicates_in_file`, `invalid_emails` in one short table.
+1. `import_contacts` with the CSV text in `csv`, `dry_run` is true by default. Show `new`, `updated`, `skipped`, `errors`, `duplicates_in_file`, `invalid_emails` in one short table. At most 5000 rows per call (split bigger files), and an import that would take the account above 50000 contacts is refused.
 2. Sources: tags like `link_clicked (<date>)` and widget columns become `source`. If a source should belong to a specific automation, pass `source_map` and run the dry run again.
 3. After the user's OK: `import_contacts` with `dry_run: false`. Existing contacts are only filled in, never overwritten. The Instagram ID from ManyChat is the same one AgentChat gets, so contacts are linked right away.
 

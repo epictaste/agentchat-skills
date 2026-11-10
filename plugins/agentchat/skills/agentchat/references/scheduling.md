@@ -13,7 +13,7 @@ Several accounts in `status`: settle which account the reel goes to (ask if the 
 ## Steps
 
 1. Video source:
-   - Local file: `upload_video` returns a one time `upload_url` (1 hour, MP4 or MOV). Upload with `curl -T reel.mp4 -H "Content-Type: video/mp4" "<upload_url>"`. Use the returned `video_id`.
+   - Local file: `upload_video` returns a one time `upload_url` (1 hour, MP4 or MOV). Upload with `curl -T reel.mp4 -H "Content-Type: video/mp4" "<upload_url>"`. Use the returned `video_id`. One upload per account at a time: wait until the upload finished before starting the next one.
    - Public URL: pass `video_url` directly.
 2. Agree on caption, time (`now` or ISO with time zone, for example `2026-10-20T18:00:00+02:00`), cover and whether it is a trial reel.
 3. Optional automation: same fields as in [new-reel.md](new-reel.md), it attaches to exactly this reel once it is live.
@@ -29,7 +29,7 @@ Several accounts in `status`: settle which account the reel goes to (ask if the 
 
 ## Several platforms at once
 
-`create_post` plans one video for Instagram, YouTube, TikTok and/or a Facebook page in one call. `list_connections` shows what is connected and `available`; missing channels the user connects with `connect_platform`. Each platform has its own object, for example `facebook: { format: "reel" | "post" | "story", description, title }`. Facebook reels must be 3 to 90 seconds, Facebook stories at most 60 seconds. AgentChat uploads to TikTok and Facebook exactly at `publish_at`. Ask for an explicit OK before `create_post`, like before `schedule_reel`.
+`create_post` plans one video for Instagram, YouTube, TikTok and/or a Facebook page in one call. `list_connections` shows what is connected and `available`; missing channels the user connects with `connect_platform` (the user opens the link in the browser where they are logged in to AgentChat, and logs in when asked). Each platform has its own object, for example `facebook: { format: "reel" | "post" | "story", description, title }`. Facebook reels must be 3 to 90 seconds, Facebook stories at most 60 seconds. AgentChat uploads to TikTok and Facebook exactly at `publish_at`. With `video_url` for YouTube, TikTok or Facebook an account can have at most 5 open posts that are not uploaded yet; for more, upload the file with `upload_video` and pass `video_id`. Ask for an explicit OK before `create_post`, like before `schedule_reel`.
 
 Facebook pages also work as accounts for comment to DM automations (Messenger). On a page there is no follower check, no story replies and no publishing from the page account; pass `account` of an Instagram account for those.
 

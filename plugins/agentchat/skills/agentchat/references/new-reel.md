@@ -32,7 +32,7 @@ Then ask everything you do not know yet in **one** message, with a default for e
 
 ## 2. Create as draft
 
-`create_automation` with `active: false` (so nothing answers yet), `trigger: "comment"`, `keywords`, three to five short `public_replies` (with `{username}`), `link_url`, and `media_ids` or `next_post`. Add `follow_gate`, `email_gate` and texts as agreed. Write the texts in the language of the reel.
+`create_automation` with `active: false` (so nothing answers yet), `trigger: "comment"`, `keywords`, three to five short `public_replies` (with `{username}`), `link_url`, and `media_ids` (at most 50 posts) or `next_post`. Add `follow_gate`, `email_gate` and texts as agreed. Write the texts in the language of the reel.
 
 ## 3. Show the preview
 
