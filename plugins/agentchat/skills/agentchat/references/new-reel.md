@@ -27,7 +27,7 @@ Then ask everything you do not know yet in **one** message, with a default for e
 ## 1. Find the reel
 
 - Posted: `list_posts`, pick the reel by caption or date. Show the user the caption start and date and confirm if unsure.
-- Not posted yet (scheduled in AgentChat, Blotato, Instagram or anywhere else): `next_post: true` plus `reel_caption` (a unique part of the planned caption) and/or `reel_publish_at` (planned time with time zone). The automation shows as waiting, attaches itself to exactly that reel at most 2 minutes after it goes online and answers the comments from before. If two reels match, or the caption asks for a different keyword, it does not guess: it suggests the reel and you confirm with `attach_automation_to_reel`. No matching reel within 24 hours: it expires.
+- Not posted yet (scheduled in AgentChat, Blotato, Instagram or anywhere else): `next_post: true` plus `reel_caption` (a unique part of the planned caption) and/or `reel_publish_at` (planned time with time zone). The automation shows as waiting, attaches itself to exactly that reel at most 2 minutes after it goes online and answers the comments from before. A carousel or photo post works the same way, but only with `reel_caption`: if only the planned time fits, it is suggested instead of attached. If two reels match, or the caption asks for a different keyword, it does not guess: it suggests the reel and you confirm with `attach_automation_to_reel`. No matching reel within 24 hours: it expires.
 - Create it at the moment the reel gets scheduled, not after it is live. If AgentChat is not reachable at that moment, do not schedule the reel and tell the user.
 
 ## 2. Create as draft
