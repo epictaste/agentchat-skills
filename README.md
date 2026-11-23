@@ -46,7 +46,16 @@ plugins/agentchat/
   .mcp.json                            AgentChat connector (OAuth)
   skills/agentchat/SKILL.md            overview, rules, routing
   skills/agentchat/references/         one file per workflow
+  skills/{manychat,reel,test-round,channel-report}/   short commands
 ```
+
+## Skills
+
+- `agentchat`: overview, rules and all workflows.
+- `/agentchat:manychat`: switch from ManyChat.
+- `/agentchat:reel`: keyword automation for one reel.
+- `/agentchat:test-round`: test versions as trial reels, compare the numbers, post the winner.
+- `/agentchat:channel-report`: weekly or monthly report across Instagram, YouTube, TikTok and Facebook.
 
 ## Try it
 

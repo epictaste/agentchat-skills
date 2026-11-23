@@ -28,6 +28,8 @@ Report a few useful ratios, for example clicked of link_sent, or how many stoppe
 - youtube: views, likes, comments per video. With the analytics permission also watch time, `averageViewPercentage`, shares and subscribers gained.
 - tiktok: followers and likes of the account, views, likes, comments and shares per video.
 - facebook: page views, engagement and follows over `days`, plus plays, reach and watch time per reel.
+- youtube with `retention: true` and exactly one `video_ids` entry: the retention curve (watch ratio per point of the video), shows where viewers drop off.
+- `post_stats` with `ids` from create_post: one post on every platform side by side (`summary` views, likes, comments, shares).
 - If the answer says a permission is missing, the user reconnects that platform once with `connect_platform`.
 
 ## Test several versions, post the best

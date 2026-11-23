@@ -24,7 +24,7 @@ AgentChat answers comments under Instagram reels and posts of Facebook pages wit
 
 ## Which workflow
 
-Short commands in Claude Code: `/agentchat:manychat` (switch from ManyChat) and `/agentchat:reel` (automation for one reel).
+Short commands in Claude Code: `/agentchat:manychat` (switch from ManyChat), `/agentchat:reel` (automation for one reel), `/agentchat:test-round` (test versions as trial reels, post the winner) and `/agentchat:channel-report` (weekly or monthly report over all channels).
 
 | The user wants | Read |
 | --- | --- |
@@ -34,6 +34,8 @@ Short commands in Claude Code: `/agentchat:manychat` (switch from ManyChat) and 
 | Numbers, insights (all platforms), trial reels, funnels, contacts, export | [review-and-stats.md](references/review-and-stats.md) |
 | A button menu, several reminders or questions before the link | [flows.md](references/flows.md) |
 | Publish or schedule a reel, photo post or story, on one or several platforms | [scheduling.md](references/scheduling.md) |
+| Test versions of a reel, post the winner | [test-round](../test-round/SKILL.md) |
+| A weekly or monthly report over all channels | [channel-report](../channel-report/SKILL.md) |
 | Something does not work | [troubleshooting.md](references/troubleshooting.md) |
 
 ## Flows (multi step DMs, button menus, reminders)
