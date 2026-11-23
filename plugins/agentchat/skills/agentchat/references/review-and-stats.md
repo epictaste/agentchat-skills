@@ -21,6 +21,21 @@ Report a few useful ratios, for example clicked of link_sent, or how many stoppe
 - `account_insights` (`days` 1 to 30, optional `demographics`) returns account totals, reach per day and, if asked, the audience by age, gender, country and city.
 - Instagram has no retention curve in its API. Numbers can be up to 48 hours late. If the tool says insights are not allowed, the user reconnects the Instagram account once at https://agentchat.georgkinzel.de/app/connections and allows insights.
 
+## YouTube, TikTok and Facebook numbers
+
+`platform_insights` with `platform` youtube, tiktok or facebook (optional `connection_id`, `video_ids`, `limit`, `days`):
+
+- youtube: views, likes, comments per video. With the analytics permission also watch time, `averageViewPercentage`, shares and subscribers gained.
+- tiktok: followers and likes of the account, views, likes, comments and shares per video.
+- facebook: page views, engagement and follows over `days`, plus plays, reach and watch time per reel.
+- If the answer says a permission is missing, the user reconnects that platform once with `connect_platform`.
+
+## Test several versions, post the best
+
+1. Schedule two or three versions as Instagram trial reels: `schedule_reel` or `create_post` with `instagram.trial` `manual` (the owner shares the winner later in the Instagram app) or `auto` (Instagram shares it with followers if it performs well). Trial reels are shown to non-followers first.
+2. After about 24 hours compare them with `post_insights`: views, `reels_skip_rate`, `avg_watch_time_s`, shares and saved matter most.
+3. Name the winner with the numbers. With `manual` the owner shares it in the app (the API cannot do that), or post the winner as a regular reel and on the other platforms with `create_post`.
+
 ## Contacts
 
 - `list_contacts` filters by `search`, `tag`, `follows`, `has_email`, `clicked`, `automation_id`, `since`, and without_tag (contacts that do not have that tag).
