@@ -1,6 +1,6 @@
 ---
 name: agentchat
-description: "Run AgentChat, the Instagram and Facebook page comment to DM automation, through its MCP connector. Use when the user wants to connect AgentChat, switch or migrate from ManyChat, set up a keyword automation for a reel (\"Comment GUIDE\"), save keyword links, check stats, views, watch time, reach, funnels, contacts or exports (also YouTube, TikTok and Facebook numbers), test versions as trial reels and post the best one, schedule or publish a reel, photo post or story (also on YouTube, TikTok and Facebook), build multi step DM flows with button menus, reminders and tags, or fix automations that do not answer."
+description: "Run AgentChat, the Instagram and Facebook page comment to DM automation, through its MCP connector. Use when the user wants to connect AgentChat, switch or migrate from ManyChat, set up a keyword automation for a reel (\"Comment GUIDE\") or for comments during an Instagram live, save keyword links, check stats, views, watch time, reach, funnels, contacts or exports (also YouTube, TikTok and Facebook numbers), test versions as trial reels and post the best one, schedule or publish a reel, photo post or story (also on YouTube, TikTok and Facebook), build multi step DM flows with button menus, reminders and tags, or fix automations that do not answer."
 ---
 
 # AgentChat
@@ -41,6 +41,10 @@ Short commands in Claude Code: `/agentchat:manychat` (switch from ManyChat), `/a
 ## Flows (multi step DMs, button menus, reminders)
 
 An automation can carry a `flow` instead of the single link DM: a button menu with several paths, two or more reminders, questions before the link, an email typed right into the DM, tags on the contact. Everything before the link DM stays (public reply, opening button, follower check, email). Use it when one link plus one reminder is not enough. Rules, the 24 hour window and ready recipes: [flows.md](references/flows.md). Show `test_automation` and `preview_automation` and get the user's OK before it goes live.
+
+## Instagram live
+
+`create_automation` with `trigger: "live_comment"` answers comments during every live of the account with a DM. Keywords, or `match_mode: "any"` for every comment. No `media_ids` (each live has a new id) and no `public_replies` (only the DM). `once_per_user` stays true, so each viewer gets it once. Instagram allows the private reply only while the live is running, so set it up before going live. Accounts connected before this existed need `subscribe_webhooks` once. Instagram only, not on Facebook pages.
 
 ## Instagram rules that shape every answer
 
